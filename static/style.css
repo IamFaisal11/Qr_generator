@@ -11,13 +11,17 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #f4f4f9;
+    background-color: #f4f4f9; /* Fallback color */
+    background-image: url('../static/images/background.jpg'); /* Correct path */
+    background-size: cover; /* Make sure the image covers the entire background */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
     color: #333;
 }
 
 /* Container styling */
 .container {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.9); /* Make the container slightly transparent for a nice overlay effect */
     padding: 30px;
     width: 100%;
     max-width: 500px;
