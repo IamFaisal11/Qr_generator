@@ -1,4 +1,4 @@
-from flask import Flask, send_file, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, send_from_directory, render_template, request, send_file
 import qrcode
 import io
 import os
@@ -11,24 +11,21 @@ def index():
 
 @app.route('/generate_qr', methods=['POST'])
 def generate_qr():
-    # Get the data from the form
     data = request.form['data']
-    
-    # Generate QR code
     qr = qrcode.make(data)
-    
-    # Save QR code to a BytesIO object
     img_io = io.BytesIO()
     qr.save(img_io, 'PNG')
     img_io.seek(0)
-    
-    # Send the image as a file to download
     return send_file(img_io, mimetype='image/png', as_attachment=True, download_name='qrcode.png')
 
-# Route to serve ads.txt
+# ✅ Corrected ads.txt serving
 @app.route('/ads.txt')
 def ads_txt():
-    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), 'ads.txt', mimetype='text/plain')
+    file_path = os.path.join(os.getcwd(), "ads.txt")
+    if os.path.exists(file_path):
+        return send_file(file_path, mimetype='text/plain')
+    else:
+        return "ads.txt not found", 404
 
 if __name__ == '__main__':
     app.run(debug=True)
