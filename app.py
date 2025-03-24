@@ -1,6 +1,7 @@
-from flask import Flask, send_file, render_template, request, redirect, url_for
+from flask import Flask, send_file, render_template, request, redirect, url_for, send_from_directory
 import qrcode
 import io
+import os
 
 app = Flask(__name__)
 
@@ -23,6 +24,11 @@ def generate_qr():
     
     # Send the image as a file to download
     return send_file(img_io, mimetype='image/png', as_attachment=True, download_name='qrcode.png')
+
+# Route to serve ads.txt
+@app.route('/ads.txt')
+def ads_txt():
+    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), 'ads.txt', mimetype='text/plain')
 
 if __name__ == '__main__':
     app.run(debug=True)
